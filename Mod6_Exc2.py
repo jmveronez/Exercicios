@@ -17,3 +17,5 @@ print(Valor_Numerico(0))
 print(Valor_Numerico(-1))
 x = int(input("Digite um valor numérico a ser consultado: "))
 print("O valor digitado é:", Valor_Numerico(x))
+
+print("Testando atualização do código")
