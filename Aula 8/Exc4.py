@@ -4,15 +4,7 @@
 def conta_vogal(frase):
     vogais = 0
     for letra in frase:
-        if letra.upper() == "A":
-            vogais += 1
-        elif letra.upper() == "E":
-            vogais += 1
-        elif letra.upper() == "I":
-            vogais += 1
-        elif letra.upper() == "O":
-            vogais += 1
-        elif letra.upper() == "U":
+        if letra.upper() in "AEIOU":
             vogais += 1
     return vogais
 
