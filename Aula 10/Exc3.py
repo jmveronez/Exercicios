@@ -36,14 +36,15 @@ def eleicao():
             continue
         
     votos_totais = len(Canditato1) + len(Canditato2) + len(Canditato3) + len(Nulo) + len(Branco)
-    #media_Nulos = (votos_totais * len(Nulo)) * 100
-    #media_Brancos = (votos_totais * len(Branco)) * 100
+    media_Nulos = (len(Nulo) / votos_totais) * 100
+    media_Brancos = (len(Branco) / votos_totais) * 100
+    print("O total de votos foi",votos_totais)
     print("\nO candidato Gonzaga recebeu",len(Canditato1),"votos!")
     print("A candidata Neusa recebeu",len(Canditato2),"votos!")
     print("O candidata Nilton recebeu",len(Canditato3),"votos!")
     print("O total de votos nulos foi de",len(Nulo),"!")
     print("O total de votos em branco foi de",len(Branco),"!")
-    #print("A média de votos Nulos em relação aos votos totais foi de",media_Nulos,"%")
-    #print("A média de votos Brancos em relação aos votos totais foi de",media_Brancos,"%")
+    print("A média de votos Nulos em relação aos votos totais foi de {0:.2f} %".format(media_Nulos))
+    print("A média de votos Brancos em relação aos votos totais foi de {0:.2f} %".format(media_Brancos))
 
 eleicao()

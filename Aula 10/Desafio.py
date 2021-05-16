@@ -19,3 +19,10 @@
 # 10 - A
 #Após concluir isto você poderia incrementar o programa permitindo que o professor 
 # digite o gabarito da prova # antes dos alunos usarem o programa
+
+gabarito = ["A","B","C","D","E","E","D","C","B","A"]
+i = int
+while i != 0:
+    acertos = []
+    erros = []
+    
