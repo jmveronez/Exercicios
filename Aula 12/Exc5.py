@@ -13,7 +13,7 @@ parada = True
 while parada != "sair":
     nome = input("Digite o nome do funcionário: ")
     data_nasc = input("Digite o ano de nascimento (DD/MM/YY): ")
-    dt = datetime.datetime.strptime(data_nasc, "%d/%m%y")
+    dt = datetime.datetime.strptime(data_nasc, "%d %m %y")
     ctps = input("Digite o número da carteira de trabalho: ")
     idade = datetime.datetime.now().year - dt.year
     dados_funcionario.update({'nome': nome, 'data de nascimento': data_nasc,'idade':idade})
