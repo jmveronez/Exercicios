@@ -16,14 +16,21 @@ class Relogio:
             self.minutos -= 60
             self.horas += 1
 
-class Personagem:
-    def __init__(self):
+class Casa:
+    def __init__(self,remedios = 2,comida = 5, aluguel = 15):
+        self.remedios = remedios
+        self.comida = comida
+        self.aluguel = aluguel
+
+class Personagem(Casa):
+    def __init__(self,aluguel):
+        super().__init__(aluguel)
         self.sujo = True
         self.fome = True
         self.medicado = False
         self.acordado = False
         self.atrasado = False
-        self.demitido = True
+        self.demitido = False
         self.dinheiro = 50
         self.salario = 100
         self.HP = 10
@@ -48,6 +55,12 @@ class Personagem:
         self.medicado = False
         self.acordado = False
         self.atrasado = False
+        self.dinheiro -= self.aluguel
+        print(f"R${self.aluguel} descontados de sua conta para pagar o aluguel!")
+        aumentar_aluguel = random.randint(1,15)
+        if aumentar_aluguel <= 2:
+            self.aluguel += 5
+            print("5 reais acrescentados ao aluguel! A patroa tá brava!")
 
     def montar_personagem(self):
         self.genero = input("Para começar, você é Homem, Mulher ou outro? ")
@@ -63,10 +76,6 @@ class Personagem:
             self.cor_cabelo = input("E a cor dele? ")
         self.rosto = input("Você é feio ou bonito? ")
 
-class Casa:
-    def __init__(self):
-        self.remedios = 2
-        self.comida = 5
 
 class Eventos:
     def menu_bomdia_atrasado(self):
@@ -113,7 +122,7 @@ class Eventos:
 if(__name__ == "__main__"):
     dia = 1
     relogio = Relogio()
-    personagem = Personagem()
+    personagem = Personagem(15)
     casa = Casa()
     eventos = Eventos()
     cafe_da_manha = False
@@ -122,6 +131,9 @@ if(__name__ == "__main__"):
     print('5 advertências você perde o emprego;')
     print('5 elogios você recebe uma promoção, aumento \nsalarial e redução de uma advertência.')
     print('Se zerar seu HP, você perde o jogo!')
+    print('Se zerar seu caixa, você perde o jogo!')
+    print('Se conseguir juntar R$1000.00, você automaticamente ganha o jogo!')
+    print('Ao fim de cada dia, um valor é descontado do seu caixa para pagar o alguel!')
     print('\n          Tabela de Advertências:') 
     print('- Receber reclamação no trabalho: 1  ')
     print('- Chegar atrasado no trabalho: 1  ')
@@ -130,6 +142,12 @@ if(__name__ == "__main__"):
     if input('Digite 1 para criar seu personagem ou 2 para ser padrão: ') == '1': personagem.montar_personagem()
     print('-=-'*15)
     while True:
+        if personagem.dinheiro >= 1000:
+            print("Parabéns, você ganhou o jogo da vida! :D")
+            sys.exit()
+        if personagem.dinheiro <= 0:
+            print("Você ficou sem dinheiro, teve que ir morar na rua e agora é indigente, espero que seu corpo ajude nas pesquisas de laboratório das faculdade :D")
+            sys.exit()
         if personagem.HP <= 0:
             print("-=-"*15)
             print("Você morreu, tente novamente!")
@@ -368,7 +386,7 @@ if(__name__ == "__main__"):
                 else:
                     print("Opção inválida!")
                     relogio.avancaTempo(5)
-        else:
+        elif personagem.demitido == True:
             print(str(personagem.nome)+" são "+str(relogio)+" do dia "+str(dia)+". Você não tem mais um emprego, vá atrás de um.\n")
             eventos.menu_bomdia_desempregado()
             opcao = input("Escolha sua ação: ")
@@ -400,7 +418,7 @@ if(__name__ == "__main__"):
                 print('-=-'*15)
             elif(opcao == "4"):                
                 chance = random.randint(1,20)
-                if chance < 50:
+                if chance <= 5:
                     relogio.avancaTempo(5)
                     chance_emprego = input("Te chamaram para uma entrevista na academia do bairro, você aceita? [S][N]")
                     if chance_emprego.upper() == "S":
@@ -430,6 +448,100 @@ if(__name__ == "__main__"):
                     else:
                         print("Valor digitado inválido, parabéns por perder mais 1 dia.")
                         print('-=-'*15)
+                elif chance == 6:
+                    print("Você foi atropelado e morreu no caminho, tente novamente!")
+                    sys.exit()
+                elif chance <= 10:
+                    chance_emprego = input("Você foi chamado para trabalhar em um salão de cabelo, gostaria de ir? [S][N]")
+                    if chance_emprego.upper() == "S":
+                        if personagem.cabelo.upper() == "CARECA":
+                            print("Puts, tu é careca, vai dar um exemplo ruim pros nossos clientes!")
+                        else:
+                            escolha_final = input("Você atende aos requisitos da vaga, o salário é de R$60 por dia, aceita? [S][N]")
+                            if escolha_final.upper() == "S":
+                                print("Parabéns, você está contratado!")
+                                print('-=-'*15)
+                                personagem.demitido = False
+                                personagem.salario = 60
+                            elif escolha_final.upper() == "N":
+                                print("Vai catar coquinho então!")
+                                print('-=-'*15)
+                            else:
+                                print("Digitou errado, parabéns por perder mais um dia!")
+                                print('-=-'*15)
+                    elif chance_emprego.upper() == "N":
+                        print("Vai catar coquinho então!")
+                        print('-=-'*15)
+                    else:
+                        print("Valor digitado inválido, parabéns por perder mais 1 dia.")
+                        print('-=-'*15)
+                elif chance <= 15:
+                    chance_emprego = input("Você foi chamado para trabalhar em uma balada alternativa, gostaria de ir? [S][N]")
+                    if chance_emprego.upper() == "S":
+                        if personagem.genero.upper() == "MULHER":
+                            escolha_final = input("A vaga é para stripper, R$120 por noite, aceita? [S][N]")
+                            if escolha_final.upper() == "S":
+                                print("Parabéns, você está contratado!")
+                                print('-=-'*15)
+                                personagem.demitido = False
+                                personagem.salario = 120
+                            elif escolha_final.upper() == "N":
+                                print("Vai catar coquinho então!")
+                                print('-=-'*15)
+                            else:
+                                print("Digitou errado, parabéns por perder mais um dia!")
+                                print('-=-'*15)
+                        elif personagem.genero.upper() == "HOMEM":
+                            escolha_final = input("A vaga é para barman, R$90 por noite, aceita? [S][N]")
+                            if escolha_final.upper() == "S":
+                                print("Parabéns, você está contratado!")
+                                print('-=-'*15)
+                                personagem.demitido = False
+                                personagem.salario = 90
+                            elif escolha_final.upper() == "N":
+                                print("Vai catar coquinho então!")
+                                print('-=-'*15)
+                            else:
+                                print("Digitou errado, parabéns por perder mais um dia!")
+                                print('-=-'*15)
+                        elif personagem.genero.upper() == "OUTRO":
+                            escolha_final = input("Hmmm, você é muito mais interessante do que eu imaginava, aceita gerenciar a balada comigo? O salário é de R$200, aceita? [S][N]")
+                            if escolha_final.upper() == "S":
+                                print("Parabéns, você está contratado!")
+                                print('-=-'*15)
+                                personagem.demitido = False
+                                personagem.salario = 200
+                            elif escolha_final.upper() == "N":
+                                print("Vai catar coquinho então!")
+                                print('-=-'*15)
+                            else:
+                                print("Digitou errado, parabéns por perder mais um dia!")
+                                print('-=-'*15)
+                    elif chance_emprego.upper() == "N":
+                        print("Vai catar coquinho então!")
+                        print('-=-'*15)
+                    else:
+                        print("Valor digitado inválido, parabéns por perder mais 1 dia.")
+                        print('-=-'*15)
+                elif chance <= 20:
+                    chance_emprego = input("Você foi chamado para trabalhar em uma central de apostas clandestinas e pirâmide finaceira, gostaria de ir? [S][N]")
+                    if chance_emprego.upper() == "S":
+                        escolha_final = input("A vaga é para ministrar o JOGO DO BICHO, VENDER INGRESSO FALSO NA RUA e VENDER CURSO DE DAY TRADE, R$250 por dia, aceita? [S][N]")
+                        if escolha_final.upper() == "S":
+                            print("Parabéns, você está contratado!")
+                            print('-=-'*15)
+                            personagem.demitido = False
+                            personagem.salario = 250
+                            chance_preso = random.randint(1,10)
+                            if chance_preso <= 7:
+                                print("Você foi pego fazendo coisa de trambiqueiro e foi preso, não existe dinheiro fácil nessa vida, tente novamente!")
+                                sys.exit()
+                        elif escolha_final.upper() == "N":
+                            print("Vai catar coquinho então!")
+                            print('-=-'*15)
+                        else:
+                            print("Digitou errado, parabéns por perder mais um dia!")
+                            print('-=-'*15)
                 personagem.dormir()
                 relogio = Relogio()
                 dia+=1
